@@ -1,7 +1,9 @@
 import 'dart:async';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class OrderTrackingPage extends StatefulWidget {
   const OrderTrackingPage({Key? key}) : super(key: key);
@@ -13,8 +15,8 @@ class OrderTrackingPage extends StatefulWidget {
 class OrderTrackingPageState extends State<OrderTrackingPage> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
-  static const LatLng destination = LatLng(37.33429383, -122.06600055);
+  static const LatLng sourceLocation = LatLng(26.8504, 75.6395);
+  static const LatLng destination = LatLng(26.9035, 75.7293);
 
 <<<<<<< HEAD
   List<LatLng> polylineCoordinates =[];
@@ -41,32 +43,6 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
     getPolyPoints();
     super.initState();
   }
-||||||| 2ed7981... Added Polylines
-  List<LatLng> polylineCoordinates =[];
-
-  void getPolyPoints() async {
-    PolylinePoints polylinePoints = PolylinePoints();
-
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        google_api_key,
-        PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-        PointLatLng(destination.latitude, destination.longitude)
-    );
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        polylineCoordinates.add(
-            LatLng(point.latitude,point.longitude),
-          );
-        setState(() {});
-      }}
-  }
-  @override
-  void initState(){
-    getPolyPoints();
-    super.initState();
-  }
-=======
->>>>>>> parent of 2ed7981... Added Polylines
 
 
   @override
@@ -78,11 +54,30 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
       ),
-      body: const GoogleMap(
-        initialCameraPosition: CameraPosition(
+      body: GoogleMap(
+        initialCameraPosition: const CameraPosition(
           target: sourceLocation,
           zoom: 12.5,
         ),
+        polylines: {
+          Polyline(
+            polylineId: PolylineId("route"),
+            points: polylineCoordinates,
+            color: primaryColor,
+            width: 6,
+          ),
+        },
+        markers: {
+          const Marker(markerId: MarkerId("source"),
+          position: sourceLocation,
+          ),
+          const Marker(markerId: MarkerId("destination"),
+            position: destination
+            ,
+          ),
+        },
+
+
       ),
     );
   }
