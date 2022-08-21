@@ -1,9 +1,11 @@
 import 'dart:async';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_mao/constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class OrderTrackingPage extends StatefulWidget {
   const OrderTrackingPage({Key? key}) : super(key: key);
@@ -15,10 +17,26 @@ class OrderTrackingPage extends StatefulWidget {
 class OrderTrackingPageState extends State<OrderTrackingPage> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
-  static const LatLng destination = LatLng(37.33429383, -122.06600055);
+  static const LatLng sourceLocation = LatLng(26.8504, 75.6395);
+  static const LatLng destination = LatLng(26.9035, 75.7293);
 
   List<LatLng> polylineCoordinates =[];
+  LocationData? currentLocation;
+void getCurrentLocation() {
+  Location location =Location();
+
+  location.getLocation().then(
+      (location) {
+        currentLocation =location;
+      },
+  );
+  location.onLocationChanged.listen(
+          (newLoc) {
+            currentLocation=newLoc;
+
+            setState(() {});
+          },);
+}
 
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
@@ -38,6 +56,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   }
   @override
   void initState(){
+  getCurrentLocation();
     getPolyPoints();
     super.initState();
   }
@@ -52,20 +71,30 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
       ),
-      body: GoogleMap(
-        initialCameraPosition: const CameraPosition(
-          target: sourceLocation,
+      body:
+      currentLocation == null ? const Center(child: Text("Loading Data")) :
+      GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: LatLng(
+              currentLocation!.latitude!, currentLocation!.longitude!
+          ),
           zoom: 12.5,
         ),
         polylines: {
           Polyline(
-            polylineId: PolylineId("route"),
+            polylineId: const PolylineId("route"),
             points: polylineCoordinates,
             color: primaryColor,
             width: 6,
           ),
         },
         markers: {
+          Marker(markerId: const MarkerId("currentLocation"),
+          position: LatLng(
+              currentLocation!.latitude!, currentLocation!.longitude!
+            )
+          ),
+
           const Marker(markerId: MarkerId("source"),
           position: sourceLocation,
           ),
