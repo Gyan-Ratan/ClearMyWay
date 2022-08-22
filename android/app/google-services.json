@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "968860202365",
+    "project_id": "clearmyroute",
+    "storage_bucket": "clearmyroute.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968860202365:android:6c8cd11f8fb8357e0b4814",
+        "android_client_info": {
+          "package_name": "com.example.google_mao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968860202365-f291d9pi618eqf92pk3p57c8tqqnd42q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEP1CDIPrszPmvqqtEZ1OmwyJDoTNXAwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968860202365-f291d9pi618eqf92pk3p57c8tqqnd42q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

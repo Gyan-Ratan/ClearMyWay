@@ -38,6 +38,9 @@ dependencies:
   location: ^4.4.0
   flutter_svg: ^1.1.0
   firebase_core: ^1.21.0
+  permission_handler: ^8.1.4+2
+  cloud_firestore: ^2.5.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +67,7 @@ flutter:
   assets:
     - assets/
     - assets/icons/
-    - .env
+    # - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
